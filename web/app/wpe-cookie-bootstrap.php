@@ -3,7 +3,7 @@
  * Force WordPress auth cookies to the site root on remote hosts (WP Engine).
  *
  * Bedrock .env often sets WP_SITEURL with a /wp suffix, which makes WordPress
- * scope cookies to /wp/ and breaks /wp-admin/ login on WPE.
+ * set ADMIN_COOKIE_PATH to /wp/wp-admin while WPE serves admin at /wp-admin/.
  */
 
 $host = $_SERVER['HTTP_HOST'] ?? '';
@@ -14,8 +14,18 @@ if (!is_string($host) || $host === '' || $is_local) {
     return;
 }
 
-foreach (array('COOKIEPATH', 'SITECOOKIEPATH', 'ADMIN_COOKIE_PATH', 'PLUGINS_COOKIE_PATH') as $constant) {
-    if (!defined($constant)) {
-        define($constant, '/');
-    }
+if (!defined('COOKIEPATH')) {
+    define('COOKIEPATH', '/');
+}
+
+if (!defined('SITECOOKIEPATH')) {
+    define('SITECOOKIEPATH', '/');
+}
+
+if (!defined('ADMIN_COOKIE_PATH')) {
+    define('ADMIN_COOKIE_PATH', '/wp-admin');
+}
+
+if (!defined('PLUGINS_COOKIE_PATH')) {
+    define('PLUGINS_COOKIE_PATH', '/wp-content/plugins');
 }

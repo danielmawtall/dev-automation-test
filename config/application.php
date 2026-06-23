@@ -85,8 +85,8 @@ if ($uses_wpe_public_urls) {
     Config::define('WP_CONTENT_URL', $wp_home . '/wp-content');
     Config::define('COOKIEPATH', '/');
     Config::define('SITECOOKIEPATH', '/');
-    Config::define('ADMIN_COOKIE_PATH', '/');
-    Config::define('PLUGINS_COOKIE_PATH', '/');
+    Config::define('ADMIN_COOKIE_PATH', '/wp-admin');
+    Config::define('PLUGINS_COOKIE_PATH', '/wp-content/plugins');
 } else {
     Config::define('WP_SITEURL', env('WP_SITEURL'));
     Config::define('WP_CONTENT_URL', env('WP_CONTENT_URL') ?: (Config::get('WP_HOME') . Config::get('CONTENT_DIR')));
@@ -148,6 +148,8 @@ if (file_exists($env_config)) {
 }
 
 Config::apply();
+
+require_once $webroot_dir . '/app/wpe-cookie-bootstrap.php';
 
 if (!defined('WPMU_PLUGIN_DIR')) {
     define('WPMU_PLUGIN_DIR', WP_CONTENT_DIR . '/mu-plugins');
