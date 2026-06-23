@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Bedrock WPE URL Fix
- * Description: Aligns Bedrock URLs with WP Engine public paths and rewrites legacy /wp/wp-* and /app URLs.
+ * Description: Aligns Bedrock URL constants and rewrites legacy /wp/wp-* and /app paths on WP Engine.
  */
 
 if (!defined('ABSPATH')) {
@@ -21,11 +21,7 @@ function bedrock_wpe_is_platform(): bool
 
     $local_stubs = ['auto-build-test-local', 'binder-local'];
 
-    if (getenv('IS_WPE')) {
-        return $is_wpe = true;
-    }
-
-    if (!empty($_SERVER['IS_WPE']) || !empty($_SERVER['HTTP_X_WPE_SSL'])) {
+    if (getenv('IS_WPE') || !empty($_SERVER['IS_WPE']) || !empty($_SERVER['HTTP_X_WPE_SSL'])) {
         return $is_wpe = true;
     }
 
@@ -143,14 +139,9 @@ add_filter('pre_option_upload_path', static function ($pre) {
     return bedrock_wpe_is_platform() ? '' : $pre;
 });
 
-add_filter('site_url', 'bedrock_wpe_maybe_fix_url', 20);
-add_filter('network_site_url', 'bedrock_wpe_maybe_fix_url', 20);
-add_filter('admin_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('includes_url', 'bedrock_wpe_maybe_fix_url', 20);
-add_filter('content_url', 'bedrock_wpe_maybe_fix_url', 20);
-add_filter('plugins_url', 'bedrock_wpe_maybe_fix_url', 20);
+add_filter('admin_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('login_url', 'bedrock_wpe_maybe_fix_url', 20);
-add_filter('logout_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('style_loader_src', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('script_loader_src', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('wp_get_attachment_url', 'bedrock_wpe_maybe_fix_url', 20);
@@ -163,22 +154,6 @@ add_filter('wp_get_attachment_image_src', static function ($image) {
     $image[0] = bedrock_wpe_fix_url($image[0]);
 
     return $image;
-}, 20);
-
-add_filter('post_thumbnail_html', static function ($html) {
-    if (!bedrock_wpe_is_platform() || !is_string($html) || $html === '') {
-        return $html;
-    }
-
-    return bedrock_wpe_fix_url($html);
-}, 20);
-
-add_filter('wp_content_img_tag', static function ($html) {
-    if (!bedrock_wpe_is_platform() || !is_string($html) || $html === '') {
-        return $html;
-    }
-
-    return bedrock_wpe_fix_url($html);
 }, 20);
 
 add_filter('upload_dir', static function (array $uploads): array {
@@ -224,32 +199,3 @@ add_filter('wp_calculate_image_srcset', static function ($sources) {
 
     return $sources;
 }, 20);
-
-/**
- * Catch hardcoded /wp/wp-* asset URLs in rendered HTML (WPE login, admin, blocks).
- */
-add_action('init', static function () {
-    if (!bedrock_wpe_is_platform() || wp_doing_ajax() || wp_is_json_request()) {
-        return;
-    }
-
-    $pagenow = $GLOBALS['pagenow'] ?? '';
-
-    if (!is_admin() && $pagenow !== 'wp-login.php') {
-        return;
-    }
-
-    ob_start(static function ($html) {
-        return is_string($html) ? bedrock_wpe_fix_url($html) : $html;
-    });
-}, 0);
-
-add_action('template_redirect', static function () {
-    if (!bedrock_wpe_is_platform() || is_admin() || wp_doing_ajax() || wp_is_json_request()) {
-        return;
-    }
-
-    ob_start(static function ($html) {
-        return is_string($html) ? bedrock_wpe_fix_url($html) : $html;
-    });
-}, 0);
