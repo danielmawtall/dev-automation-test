@@ -137,3 +137,60 @@ add_action('template_redirect', static function () {
     return is_string($html) ? ai_dev_fix_wpe_url($html) : $html;
   });
 }, -99999);
+
+/**
+ * One-time DB cleanup for Bedrock-on-WPE (no SSH / WP-CLI required).
+ */
+function ai_dev_maybe_migrate_wpe_db_urls(): void {
+  if (!ai_dev_is_wpe_host() || get_option('ai_dev_wpe_db_urls_migrated')) {
+    return;
+  }
+
+  $public_home = ai_dev_public_home();
+
+  if ($public_home === '') {
+    return;
+  }
+
+  global $wpdb;
+
+  $siteurl = $wpdb->get_var(
+    "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'siteurl' LIMIT 1"
+  );
+
+  if (is_string($siteurl) && rtrim($siteurl, '/') !== $public_home) {
+    update_option('siteurl', $public_home);
+  }
+
+  $home = $wpdb->get_var(
+    "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'home' LIMIT 1"
+  );
+
+  if (is_string($home) && rtrim($home, '/') !== $public_home) {
+    update_option('home', $public_home);
+  }
+
+  $from = $public_home . '/app/uploads';
+  $to = $public_home . '/wp-content/uploads';
+
+  $wpdb->query(
+    $wpdb->prepare(
+      "UPDATE {$wpdb->posts} SET guid = REPLACE(guid, %s, %s) WHERE guid LIKE %s",
+      $from,
+      $to,
+      $wpdb->esc_like($from) . '%'
+    )
+  );
+
+  $wpdb->query(
+    $wpdb->prepare(
+      "UPDATE {$wpdb->users} SET user_url = %s WHERE user_url LIKE %s",
+      $public_home,
+      $wpdb->esc_like($public_home . '/wp')
+    )
+  );
+
+  update_option('ai_dev_wpe_db_urls_migrated', 1, false);
+}
+
+add_action('init', 'ai_dev_maybe_migrate_wpe_db_urls', 5);
