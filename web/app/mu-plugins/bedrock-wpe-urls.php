@@ -41,6 +41,24 @@ function bedrock_wpe_is_platform(): bool
 }
 
 /**
+ * Canonical public site URL on WP Engine (ignores .env /wp suffix).
+ */
+function bedrock_wpe_site_url(): string
+{
+    $scheme = 'http';
+
+    if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+        || !empty($_SERVER['HTTP_X_WPE_SSL'])) {
+        $scheme = 'https';
+    }
+
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+
+    return $scheme . '://' . $host;
+}
+
+/**
  * @param string $url
  */
 function bedrock_wpe_fix_url(string $url): string
@@ -49,7 +67,7 @@ function bedrock_wpe_fix_url(string $url): string
         return $url;
     }
 
-    $home = defined('WP_HOME') ? rtrim((string) WP_HOME, '/') : '';
+    $home = bedrock_wpe_is_platform() ? bedrock_wpe_site_url() : (defined('WP_HOME') ? rtrim((string) WP_HOME, '/') : '');
 
     $search = [
         '/wp/wp-content/',
@@ -124,11 +142,11 @@ function bedrock_wpe_maybe_fix_url($url)
 }
 
 add_filter('pre_option_home', static function ($pre) {
-    return bedrock_wpe_is_platform() ? WP_HOME : $pre;
+    return bedrock_wpe_is_platform() ? bedrock_wpe_site_url() : $pre;
 });
 
 add_filter('pre_option_siteurl', static function ($pre) {
-    return bedrock_wpe_is_platform() ? WP_HOME : $pre;
+    return bedrock_wpe_is_platform() ? bedrock_wpe_site_url() : $pre;
 });
 
 add_filter('pre_option_upload_url_path', static function ($pre) {
@@ -201,3 +219,33 @@ add_filter('wp_calculate_image_srcset', static function ($sources) {
 
     return $sources;
 }, 20);
+
+add_action('template_redirect', static function () {
+    if (!bedrock_wpe_is_platform() || is_admin() || wp_doing_ajax() || wp_is_json_request()) {
+        return;
+    }
+
+    ob_start(static function ($html) {
+        return is_string($html) ? bedrock_wpe_fix_url($html) : $html;
+    });
+}, 0);
+
+add_action('login_init', static function () {
+    if (!bedrock_wpe_is_platform()) {
+        return;
+    }
+
+    ob_start(static function ($html) {
+        return is_string($html) ? bedrock_wpe_fix_url($html) : $html;
+    });
+}, 0);
+
+add_action('admin_init', static function () {
+    if (!bedrock_wpe_is_platform() || wp_doing_ajax() || wp_is_json_request()) {
+        return;
+    }
+
+    ob_start(static function ($html) {
+        return is_string($html) ? bedrock_wpe_fix_url($html) : $html;
+    });
+}, 0);

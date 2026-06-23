@@ -20,13 +20,14 @@ function ai_dev_is_wpe_host(): bool {
  * Site home URL without Bedrock /wp suffix on WP Engine.
  */
 function ai_dev_public_home(): string {
-  $home = defined('WP_HOME') ? rtrim(WP_HOME, '/') : '';
-
   if (ai_dev_is_wpe_host()) {
-    $home = (string) preg_replace('#/wp$#', '', $home);
+    $scheme = (is_ssl() || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+
+    return $scheme . '://' . $host;
   }
 
-  return $home;
+  return defined('WP_HOME') ? rtrim(WP_HOME, '/') : '';
 }
 
 /**
