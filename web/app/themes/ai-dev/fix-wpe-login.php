@@ -137,6 +137,25 @@ echo '  siteurl (now): ' . (string) get_option('siteurl') . "\n";
 echo '  home (now): ' . (string) get_option('home') . "\n";
 echo '  updated: ' . ($changed ? 'yes' : 'no') . "\n\n";
 
+echo "Bedrock constants (these override the database for cookies):\n";
+echo '  WP_HOME=' . (defined('WP_HOME') ? WP_HOME : '(not set)') . "\n";
+echo '  WP_SITEURL=' . (defined('WP_SITEURL') ? WP_SITEURL : '(not set)') . "\n";
+
+$wp_siteurl = defined('WP_SITEURL') ? rtrim((string) WP_SITEURL, '/') : '';
+$wp_home = defined('WP_HOME') ? rtrim((string) WP_HOME, '/') : '';
+
+if ($wp_siteurl !== '' && $wp_siteurl !== $public_home) {
+    echo "\n";
+    echo ">>> WP_SITEURL still ends with /wp or does not match the public URL.\n";
+    echo ">>> SQL updates to wp_options are ignored while this constant is set.\n";
+    echo ">>> Fix in WPE User Portal -> Environment variables:\n";
+    echo ">>>   WP_HOME={$public_home}\n";
+    echo ">>>   WP_SITEURL={$public_home}\n";
+    echo ">>> (both identical, no /wp suffix)\n";
+}
+
+echo "\n";
+
 echo "Cookie constants (this request):\n";
 echo '  COOKIEPATH=' . (defined('COOKIEPATH') ? COOKIEPATH : '(not set)') . "\n";
 echo '  SITECOOKIEPATH=' . (defined('SITECOOKIEPATH') ? SITECOOKIEPATH : '(not set)') . "\n";
