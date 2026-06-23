@@ -5,15 +5,8 @@
 
 /**
  * Public URI for the active theme.
- *
- * Local Bedrock uses /app/themes/...; WP Engine serves the same files at
- * /wp-content/themes/... (see config/environments/staging.php).
  */
 function ai_dev_theme_uri(): string {
-  if (defined('PWP_NAME') && !in_array(PWP_NAME, array('auto-build-test-local', 'binder-local'), true)) {
-    return home_url('/wp-content/themes/' . get_stylesheet());
-  }
-
   return content_url('themes/' . get_stylesheet());
 }
 

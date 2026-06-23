@@ -31,11 +31,22 @@ if (!env('WP_ENVIRONMENT_TYPE') && in_array(WP_ENV, ['production', 'staging', 'd
 }
 
 Config::define('WP_HOME', env('WP_HOME'));
-Config::define('WP_SITEURL', env('WP_SITEURL'));
 
 Config::define('CONTENT_DIR', '/app');
 Config::define('WP_CONTENT_DIR', $webroot_dir . Config::get('CONTENT_DIR'));
-Config::define('WP_CONTENT_URL', Config::get('WP_HOME') . Config::get('CONTENT_DIR'));
+
+$pwp_name = env('PWP_NAME');
+$is_wpe = is_string($pwp_name) && $pwp_name !== ''
+    && !in_array($pwp_name, ['auto-build-test-local', 'binder-local'], true);
+
+if ($is_wpe) {
+    // WPE serves core and content from root URLs (/wp-admin, /wp-content), not Bedrock's /wp and /app.
+    Config::define('WP_SITEURL', env('WP_SITEURL') ?: env('WP_HOME'));
+    Config::define('WP_CONTENT_URL', env('WP_CONTENT_URL') ?: (env('WP_HOME') . '/wp-content'));
+} else {
+    Config::define('WP_SITEURL', env('WP_SITEURL'));
+    Config::define('WP_CONTENT_URL', env('WP_CONTENT_URL') ?: (Config::get('WP_HOME') . Config::get('CONTENT_DIR')));
+}
 
 if (env('DB_SSL')) {
     Config::define('MYSQL_CLIENT_FLAGS', MYSQLI_CLIENT_SSL);
