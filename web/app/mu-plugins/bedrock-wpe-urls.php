@@ -72,10 +72,16 @@ function bedrock_wpe_fix_url(string $url): string
     ];
 
     if ($home !== '') {
+        $absolute_search = [];
+        $absolute_replace = [];
+
         foreach ($search as $index => $path) {
-            $search[] = $home . $path;
-            $replace[] = $home . $replace[$index];
+            $absolute_search[] = $home . $path;
+            $absolute_replace[] = $home . $replace[$index];
         }
+
+        $search = array_merge($search, $absolute_search);
+        $replace = array_merge($replace, $absolute_replace);
     }
 
     return str_replace($search, $replace, $url);
@@ -121,35 +127,36 @@ function bedrock_wpe_maybe_fix_url($url)
     return $fixed;
 }
 
-if (!bedrock_wpe_is_platform()) {
-    return;
-}
-
 add_filter('pre_option_home', static function ($pre) {
-    return WP_HOME;
+    return bedrock_wpe_is_platform() ? WP_HOME : $pre;
 });
 
 add_filter('pre_option_siteurl', static function ($pre) {
-    return WP_HOME;
+    return bedrock_wpe_is_platform() ? WP_HOME : $pre;
 });
 
 add_filter('pre_option_upload_url_path', static function ($pre) {
-    return '';
+    return bedrock_wpe_is_platform() ? '' : $pre;
 });
 
 add_filter('pre_option_upload_path', static function ($pre) {
-    return '';
+    return bedrock_wpe_is_platform() ? '' : $pre;
 });
 
+add_filter('site_url', 'bedrock_wpe_maybe_fix_url', 20);
+add_filter('network_site_url', 'bedrock_wpe_maybe_fix_url', 20);
+add_filter('admin_url', 'bedrock_wpe_maybe_fix_url', 20);
+add_filter('includes_url', 'bedrock_wpe_maybe_fix_url', 20);
+add_filter('content_url', 'bedrock_wpe_maybe_fix_url', 20);
+add_filter('plugins_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('login_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('logout_url', 'bedrock_wpe_maybe_fix_url', 20);
-add_filter('admin_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('style_loader_src', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('script_loader_src', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('wp_get_attachment_url', 'bedrock_wpe_maybe_fix_url', 20);
 
 add_filter('wp_get_attachment_image_src', static function ($image) {
-    if (!is_array($image) || empty($image[0]) || !is_string($image[0])) {
+    if (!bedrock_wpe_is_platform() || !is_array($image) || empty($image[0]) || !is_string($image[0])) {
         return $image;
     }
 
@@ -158,7 +165,27 @@ add_filter('wp_get_attachment_image_src', static function ($image) {
     return $image;
 }, 20);
 
+add_filter('post_thumbnail_html', static function ($html) {
+    if (!bedrock_wpe_is_platform() || !is_string($html) || $html === '') {
+        return $html;
+    }
+
+    return bedrock_wpe_fix_url($html);
+}, 20);
+
+add_filter('wp_content_img_tag', static function ($html) {
+    if (!bedrock_wpe_is_platform() || !is_string($html) || $html === '') {
+        return $html;
+    }
+
+    return bedrock_wpe_fix_url($html);
+}, 20);
+
 add_filter('upload_dir', static function (array $uploads): array {
+    if (!bedrock_wpe_is_platform()) {
+        return $uploads;
+    }
+
     foreach (['url', 'baseurl'] as $key) {
         if (!empty($uploads[$key]) && is_string($uploads[$key])) {
             $uploads[$key] = bedrock_wpe_fix_url($uploads[$key]);
@@ -169,29 +196,23 @@ add_filter('upload_dir', static function (array $uploads): array {
 }, 20);
 
 add_filter('the_content', static function ($content) {
-    if (!is_string($content) || $content === '') {
+    if (!bedrock_wpe_is_platform() || !is_string($content) || $content === '') {
         return $content;
     }
 
     return bedrock_wpe_fix_url($content);
 }, 20);
 
-add_filter('acf/format_value', static function ($value, $post_id, $field) {
-    if (!is_array($field) || empty($field['type'])) {
-        return $value;
-    }
-
-    $url_field_types = ['image', 'file', 'url', 'link', 'gallery', 'oembed'];
-
-    if (!in_array($field['type'], $url_field_types, true)) {
+add_filter('acf/format_value', static function ($value) {
+    if (!bedrock_wpe_is_platform()) {
         return $value;
     }
 
     return bedrock_wpe_fix_value($value);
-}, 20, 3);
+}, 20);
 
 add_filter('wp_calculate_image_srcset', static function ($sources) {
-    if (!is_array($sources)) {
+    if (!bedrock_wpe_is_platform() || !is_array($sources)) {
         return $sources;
     }
 
@@ -203,3 +224,32 @@ add_filter('wp_calculate_image_srcset', static function ($sources) {
 
     return $sources;
 }, 20);
+
+/**
+ * Catch hardcoded /wp/wp-* asset URLs in rendered HTML (WPE login, admin, blocks).
+ */
+add_action('init', static function () {
+    if (!bedrock_wpe_is_platform() || wp_doing_ajax() || wp_is_json_request()) {
+        return;
+    }
+
+    $pagenow = $GLOBALS['pagenow'] ?? '';
+
+    if (!is_admin() && $pagenow !== 'wp-login.php') {
+        return;
+    }
+
+    ob_start(static function ($html) {
+        return is_string($html) ? bedrock_wpe_fix_url($html) : $html;
+    });
+}, 0);
+
+add_action('template_redirect', static function () {
+    if (!bedrock_wpe_is_platform() || is_admin() || wp_doing_ajax() || wp_is_json_request()) {
+        return;
+    }
+
+    ob_start(static function ($html) {
+        return is_string($html) ? bedrock_wpe_fix_url($html) : $html;
+    });
+}, 0);

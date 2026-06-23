@@ -30,7 +30,9 @@ if (!env('WP_ENVIRONMENT_TYPE') && in_array(WP_ENV, ['production', 'staging', 'd
     Config::define('WP_ENVIRONMENT_TYPE', WP_ENV);
 }
 
-Config::define('WP_HOME', env('WP_HOME'));
+$wp_home = rtrim((string) env('WP_HOME'), '/');
+
+Config::define('WP_HOME', $wp_home);
 
 Config::define('CONTENT_DIR', '/app');
 Config::define('WP_CONTENT_DIR', $webroot_dir . Config::get('CONTENT_DIR'));
@@ -55,8 +57,8 @@ $is_wpe = $is_wpe_host
 
 if ($is_wpe) {
     // WPE serves core and content from root URLs. Ignore Bedrock /wp and /app .env values.
-    Config::define('WP_SITEURL', env('WP_HOME'));
-    Config::define('WP_CONTENT_URL', rtrim((string) env('WP_HOME'), '/') . '/wp-content');
+    Config::define('WP_SITEURL', $wp_home);
+    Config::define('WP_CONTENT_URL', $wp_home . '/wp-content');
 } else {
     Config::define('WP_SITEURL', env('WP_SITEURL'));
     Config::define('WP_CONTENT_URL', env('WP_CONTENT_URL') ?: (Config::get('WP_HOME') . Config::get('CONTENT_DIR')));
