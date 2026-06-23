@@ -4,15 +4,17 @@
  */
 
 /**
- * Public URI for the active theme. Uses Bedrock CONTENT_DIR when set so asset
- * URLs resolve to /app/themes/... instead of /wp/wp-content/themes/... on WP Engine.
+ * Public URI for the active theme.
+ *
+ * Local Bedrock uses /app/themes/...; WP Engine serves the same files at
+ * /wp-content/themes/... (see config/environments/staging.php).
  */
 function ai_dev_theme_uri(): string {
-  if (defined('CONTENT_DIR') && is_string(CONTENT_DIR) && CONTENT_DIR !== '') {
-    return home_url(CONTENT_DIR . '/themes/' . get_stylesheet());
+  if (defined('PWP_NAME') && !in_array(PWP_NAME, array('auto-build-test-local', 'binder-local'), true)) {
+    return home_url('/wp-content/themes/' . get_stylesheet());
   }
 
-  return get_template_directory_uri();
+  return content_url('themes/' . get_stylesheet());
 }
 
 /**
