@@ -157,6 +157,8 @@ add_filter('pre_option_upload_path', static function ($pre) {
     return bedrock_wpe_is_platform() ? '' : $pre;
 });
 
+add_filter('site_url', 'bedrock_wpe_maybe_fix_url', 20);
+add_filter('home_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('includes_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('content_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('plugins_url', 'bedrock_wpe_maybe_fix_url', 20);
@@ -165,6 +167,22 @@ add_filter('login_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('style_loader_src', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('script_loader_src', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('wp_get_attachment_url', 'bedrock_wpe_maybe_fix_url', 20);
+
+add_filter('wp_redirect', static function ($location) {
+    if (!bedrock_wpe_is_platform() || !is_string($location) || $location === '') {
+        return $location;
+    }
+
+    return bedrock_wpe_fix_url($location);
+}, 20);
+
+add_filter('redirect_canonical', static function ($redirect_url) {
+    if (!bedrock_wpe_is_platform() || !is_string($redirect_url) || $redirect_url === '') {
+        return $redirect_url;
+    }
+
+    return bedrock_wpe_fix_url($redirect_url);
+}, 20);
 
 add_filter('wp_get_attachment_image_src', static function ($image) {
     if (!bedrock_wpe_is_platform() || !is_array($image) || empty($image[0]) || !is_string($image[0])) {
@@ -198,6 +216,14 @@ add_filter('the_content', static function ($content) {
     return bedrock_wpe_fix_url($content);
 }, 20);
 
+add_filter('acf/load_value', static function ($value) {
+    if (!bedrock_wpe_is_platform()) {
+        return $value;
+    }
+
+    return bedrock_wpe_fix_value($value);
+}, 20);
+
 add_filter('acf/format_value', static function ($value) {
     if (!bedrock_wpe_is_platform()) {
         return $value;
@@ -220,28 +246,8 @@ add_filter('wp_calculate_image_srcset', static function ($sources) {
     return $sources;
 }, 20);
 
-add_action('template_redirect', static function () {
+add_action('init', static function () {
     if (!bedrock_wpe_is_platform() || is_admin() || wp_doing_ajax() || wp_is_json_request()) {
-        return;
-    }
-
-    ob_start(static function ($html) {
-        return is_string($html) ? bedrock_wpe_fix_url($html) : $html;
-    });
-}, 0);
-
-add_action('login_init', static function () {
-    if (!bedrock_wpe_is_platform()) {
-        return;
-    }
-
-    ob_start(static function ($html) {
-        return is_string($html) ? bedrock_wpe_fix_url($html) : $html;
-    });
-}, 0);
-
-add_action('admin_init', static function () {
-    if (!bedrock_wpe_is_platform() || wp_doing_ajax() || wp_is_json_request()) {
         return;
     }
 

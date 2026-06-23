@@ -50,8 +50,19 @@ $is_wpe = $is_wpe_host
     || !empty($_SERVER['HTTP_X_WPE_SSL'])
     || (is_string($pwp_name) && $pwp_name !== '' && !in_array($pwp_name, $local_wpe_stubs, true));
 
-if ($is_wpe) {
-    // Some WPE .env files set WP_HOME with a /wp suffix from Bedrock defaults.
+if ($is_wpe && $is_wpe_host) {
+    // WPE serves at the site root. Ignore .env Bedrock /wp paths and use the request host.
+    $scheme = 'http';
+
+    if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+        || !empty($_SERVER['HTTP_X_WPE_SSL'])) {
+        $scheme = 'https';
+    }
+
+    $wp_home = $scheme . '://' . $http_host;
+} elseif ($is_wpe) {
+    // WP-CLI / cron: strip a trailing /wp from Bedrock-style .env values.
     $wp_home = (string) preg_replace('#/wp$#', '', $wp_home);
 }
 
