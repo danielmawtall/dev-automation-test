@@ -20,7 +20,7 @@ function ai_dev_block_categories($categories, $post) {
 add_action('init', 'ai_dev_register_acf_blocks', 5);
 function ai_dev_register_acf_blocks() {
   $parentDir = realpath(__DIR__ . '/..');
-  $themeUri  = get_template_directory_uri();
+  $themeUri  = ai_dev_theme_uri();
   $ver       = wp_get_theme()->get('Version');
 
   $blocks = array(

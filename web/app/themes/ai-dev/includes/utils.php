@@ -4,6 +4,18 @@
  */
 
 /**
+ * Public URI for the active theme. Uses Bedrock CONTENT_DIR when set so asset
+ * URLs resolve to /app/themes/... instead of /wp/wp-content/themes/... on WP Engine.
+ */
+function ai_dev_theme_uri(): string {
+  if (defined('CONTENT_DIR') && is_string(CONTENT_DIR) && CONTENT_DIR !== '') {
+    return home_url(CONTENT_DIR . '/themes/' . get_stylesheet());
+  }
+
+  return get_template_directory_uri();
+}
+
+/**
  * Build BEM block class string from Gutenberg block data.
  */
 function ai_dev_block_classes(string $slug, array $block, array $extra = array()): string {

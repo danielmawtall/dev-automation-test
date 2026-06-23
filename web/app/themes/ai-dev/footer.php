@@ -5,7 +5,7 @@ $footer_address = get_field('footer_address', 'option');
 $footer_info = get_field('footer_info', 'option');
 $footer_copyright = get_field('footer_copyright', 'option') ?: 'Copyright © ' . gmdate('Y') . ' Tall Agency Ltd';
 $reshape_image = get_field('footer_reshape_image', 'option');
-$reshape_fallback = get_template_directory_uri() . '/assets/img/footer-reshape-possible.svg';
+$reshape_fallback = ai_dev_theme_uri() . '/assets/img/footer-reshape-possible.svg';
 ?>
 <footer id="site-footer" class="site-footer">
   <?php if (has_nav_menu('footer-links')) : ?>
