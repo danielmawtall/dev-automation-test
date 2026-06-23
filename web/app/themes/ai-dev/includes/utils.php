@@ -4,17 +4,27 @@
  */
 
 /**
+ * Whether the theme is running on WP Engine (not local WPE stubs).
+ */
+function ai_dev_is_wpe_host(): bool {
+  if (defined('PWP_NAME') && !in_array(PWP_NAME, array('auto-build-test-local', 'binder-local'), true)) {
+    return true;
+  }
+
+  $host = $_SERVER['HTTP_HOST'] ?? '';
+
+  return is_string($host) && $host !== '' && preg_match('/(^|\\.)wpengine(powered)?\\.com$/i', $host);
+}
+
+/**
  * Public URI for the active theme.
  */
 function ai_dev_theme_uri(): string {
-  $uri = content_url('themes/' . get_stylesheet());
-
-  if (defined('PWP_NAME') && !in_array(PWP_NAME, array('auto-build-test-local', 'binder-local'), true)) {
-    $uri = str_replace(home_url('/app/'), home_url('/wp-content/'), $uri);
-    $uri = str_replace(home_url('/wp/wp-content/'), home_url('/wp-content/'), $uri);
+  if (ai_dev_is_wpe_host() && defined('WP_HOME')) {
+    return rtrim(WP_HOME, '/') . '/wp-content/themes/' . get_stylesheet();
   }
 
-  return $uri;
+  return content_url('themes/' . get_stylesheet());
 }
 
 /**
