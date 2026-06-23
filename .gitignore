@@ -31,9 +31,13 @@ caddy_data/
 caddy_config/
 
 # Build output (theme / tooling)
-dist/
 build/
 *.map
+
+# Ignore dist except compiled theme assets (deployed via DeployHQ build)
+dist/
+!web/app/themes/ai-dev/dist/
+!web/app/themes/ai-dev/dist/**
 
 # Optional: keep lockfile in repo — remove ignore if you commit composer.lock
 # composer.lock
