@@ -43,8 +43,14 @@ if (!is_string($pwp_name) || $pwp_name === '') {
     $pwp_name = is_string($pwp_env) ? $pwp_env : '';
 }
 
-$is_wpe = (bool) getenv('IS_WPE')
+$http_host = $_SERVER['HTTP_HOST'] ?? '';
+$is_wpe_host = is_string($http_host) && $http_host !== ''
+    && preg_match('/(^|\\.)wpengine(powered)?\\.com$/i', $http_host);
+
+$is_wpe = $is_wpe_host
+    || (bool) getenv('IS_WPE')
     || !empty($_SERVER['IS_WPE'])
+    || !empty($_SERVER['HTTP_X_WPE_SSL'])
     || (is_string($pwp_name) && $pwp_name !== '' && !in_array($pwp_name, $local_wpe_stubs, true));
 
 if ($is_wpe) {
