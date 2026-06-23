@@ -16,5 +16,5 @@ if (is_blog_installed() && class_exists(Autoloader::class)) {
 }
 
 if (!function_exists('bedrock_wpe_is_platform')) {
-    require_once __DIR__ . '/00-bedrock-wpe-urls.php';
+    require_once dirname(__DIR__) . '/wpe-url-fix.php';
 }

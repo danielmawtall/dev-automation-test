@@ -18,3 +18,5 @@ add_filter( 'doing_it_wrong_trigger_error', function( $status, $function_name ) 
     }
     return $status;
 }, 10, 2 );
+
+require_once dirname(__DIR__) . '/wpe-url-fix.php';

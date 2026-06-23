@@ -55,7 +55,7 @@ $reshape_fallback = ai_dev_theme_uri() . '/assets/img/footer-reshape-possible.sv
             continue;
           }
           ?>
-          <img src="<?php echo esc_url($logo['sizes']['logo'] ?? $logo['url']); ?>" alt="<?php echo esc_attr($logo['alt'] ?? ''); ?>" loading="lazy">
+          <img src="<?php echo esc_url(ai_dev_fix_wpe_url($logo['sizes']['logo'] ?? $logo['url'])); ?>" alt="<?php echo esc_attr($logo['alt'] ?? ''); ?>" loading="lazy">
         <?php endforeach; ?>
       </div>
     <?php endif; ?>

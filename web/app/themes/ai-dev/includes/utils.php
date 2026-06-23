@@ -42,6 +42,27 @@ function ai_dev_theme_uri(): string {
 }
 
 /**
+ * Rewrite legacy Bedrock /wp/wp-content and /app paths for public asset URLs.
+ */
+function ai_dev_fix_wpe_url(string $url): string {
+  if (function_exists('bedrock_wpe_fix_url')) {
+    return bedrock_wpe_fix_url($url);
+  }
+
+  if (!ai_dev_is_wpe_host()) {
+    return $url;
+  }
+
+  $home = ai_dev_public_home();
+
+  return str_replace(
+    array($home . '/wp/wp-content/', $home . '/app/', '/wp/wp-content/', '/app/'),
+    array($home . '/wp-content/', $home . '/wp-content/', '/wp-content/', '/wp-content/'),
+    $url
+  );
+}
+
+/**
  * Build BEM block class string from Gutenberg block data.
  */
 function ai_dev_block_classes(string $slug, array $block, array $extra = array()): string {
