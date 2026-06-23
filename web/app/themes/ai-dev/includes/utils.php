@@ -7,11 +7,17 @@
  * Whether the theme is running on WP Engine (not local WPE stubs).
  */
 function ai_dev_is_wpe_host(): bool {
-  if (defined('PWP_NAME') && !in_array(PWP_NAME, array('auto-build-test-local', 'binder-local'), true)) {
+  $host = $_SERVER['HTTP_HOST'] ?? '';
+
+  if (is_string($host) && $host !== ''
+    && !str_contains($host, 'ssl.localhost')
+    && !preg_match('/(^|\.)localhost(?::\d+)?$/', $host)) {
     return true;
   }
 
-  $host = $_SERVER['HTTP_HOST'] ?? '';
+  if (defined('PWP_NAME') && !in_array(PWP_NAME, array('auto-build-test-local', 'binder-local'), true)) {
+    return true;
+  }
 
   return is_string($host) && $host !== '' && preg_match('/(^|\\.)wpengine(powered)?\\.com$/i', $host);
 }
@@ -54,12 +60,35 @@ function ai_dev_fix_wpe_url(string $url): string {
   }
 
   $home = ai_dev_public_home();
-
-  return str_replace(
-    array($home . '/wp/wp-content/', $home . '/app/', '/wp/wp-content/', '/app/'),
-    array($home . '/wp-content/', $home . '/wp-content/', '/wp-content/', '/wp-content/'),
-    $url
+  $search = array(
+    '/wp/wp-content/',
+    '/wp/wp-includes/',
+    '/wp/wp-admin/',
+    '/wp/wp-login.php',
+    '/app/',
   );
+  $replace = array(
+    '/wp-content/',
+    '/wp-includes/',
+    '/wp-admin/',
+    '/wp-login.php',
+    '/wp-content/',
+  );
+
+  if ($home !== '') {
+    $absolute_search = array();
+    $absolute_replace = array();
+
+    foreach ($search as $index => $path) {
+      $absolute_search[] = $home . $path;
+      $absolute_replace[] = $home . $replace[$index];
+    }
+
+    $search = array_merge($search, $absolute_search);
+    $replace = array_merge($replace, $absolute_replace);
+  }
+
+  return str_replace($search, $replace, $url);
 }
 
 /**

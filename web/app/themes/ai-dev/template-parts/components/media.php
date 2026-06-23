@@ -18,7 +18,7 @@ $class = 'media media--' . esc_attr($ratio);
         if ($url) :
           ?>
           <video class="media__video" playsinline muted loop autoplay>
-            <source src="<?php echo esc_url($url); ?>" type="video/mp4">
+            <source src="<?php echo esc_url(ai_dev_fix_wpe_url($url)); ?>" type="video/mp4">
           </video>
           <?php
         endif;
@@ -28,7 +28,7 @@ $class = 'media media--' . esc_attr($ratio);
       $gif = $args['gif'] ?? $args['image'] ?? null;
       if ($gif && !empty($gif['url'])) :
         ?>
-        <img class="media__image" src="<?php echo esc_url($gif['url']); ?>" alt="<?php echo esc_attr($gif['alt'] ?? ''); ?>" loading="lazy">
+        <img class="media__image" src="<?php echo esc_url(ai_dev_fix_wpe_url($gif['url'])); ?>" alt="<?php echo esc_attr($gif['alt'] ?? ''); ?>" loading="lazy">
         <?php
       endif;
       break;

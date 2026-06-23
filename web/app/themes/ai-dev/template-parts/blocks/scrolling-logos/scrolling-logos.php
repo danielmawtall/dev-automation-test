@@ -7,7 +7,7 @@ $logos = get_field('logos');
     <div class="scrolling-logos__track" data-scrolling-logos>
       <div class="scrolling-logos__inner">
         <?php foreach (array_merge($logos, $logos) as $logo) : ?>
-          <img class="scrolling-logos__logo" src="<?php echo esc_url($logo['sizes']['logo'] ?? $logo['url']); ?>" alt="<?php echo esc_attr($logo['alt'] ?? ''); ?>" loading="lazy">
+          <img class="scrolling-logos__logo" src="<?php echo esc_url(ai_dev_fix_wpe_url($logo['sizes']['logo'] ?? $logo['url'])); ?>" alt="<?php echo esc_attr($logo['alt'] ?? ''); ?>" loading="lazy">
         <?php endforeach; ?>
       </div>
     </div>
