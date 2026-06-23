@@ -162,7 +162,7 @@ add_action('template_redirect', static function () {
  * One-time DB cleanup for Bedrock-on-WPE (no SSH / WP-CLI required).
  */
 function ai_dev_maybe_migrate_wpe_db_urls(): void {
-  if (!ai_dev_is_wpe_host() || get_option('ai_dev_wpe_db_urls_migrated')) {
+  if (!ai_dev_is_wpe_host()) {
     return;
   }
 
@@ -178,13 +178,20 @@ function ai_dev_maybe_migrate_wpe_db_urls(): void {
     "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'siteurl' LIMIT 1"
   );
 
-  if (is_string($siteurl) && rtrim($siteurl, '/') !== $public_home) {
-    update_option('siteurl', $public_home);
-  }
-
   $home = $wpdb->get_var(
     "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'home' LIMIT 1"
   );
+
+  $needs_url_fix = (is_string($siteurl) && rtrim($siteurl, '/') !== $public_home)
+    || (is_string($home) && rtrim($home, '/') !== $public_home);
+
+  if (!$needs_url_fix && get_option('ai_dev_wpe_db_urls_migrated')) {
+    return;
+  }
+
+  if (is_string($siteurl) && rtrim($siteurl, '/') !== $public_home) {
+    update_option('siteurl', $public_home);
+  }
 
   if (is_string($home) && rtrim($home, '/') !== $public_home) {
     update_option('home', $public_home);
