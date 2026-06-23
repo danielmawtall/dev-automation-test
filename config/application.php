@@ -35,14 +35,22 @@ Config::define('WP_HOME', env('WP_HOME'));
 Config::define('CONTENT_DIR', '/app');
 Config::define('WP_CONTENT_DIR', $webroot_dir . Config::get('CONTENT_DIR'));
 
+$local_wpe_stubs = ['auto-build-test-local', 'binder-local'];
 $pwp_name = env('PWP_NAME');
-$is_wpe = is_string($pwp_name) && $pwp_name !== ''
-    && !in_array($pwp_name, ['auto-build-test-local', 'binder-local'], true);
+
+if (!is_string($pwp_name) || $pwp_name === '') {
+    $pwp_env = getenv('PWP_NAME');
+    $pwp_name = is_string($pwp_env) ? $pwp_env : '';
+}
+
+$is_wpe = (bool) getenv('IS_WPE')
+    || !empty($_SERVER['IS_WPE'])
+    || (is_string($pwp_name) && $pwp_name !== '' && !in_array($pwp_name, $local_wpe_stubs, true));
 
 if ($is_wpe) {
-    // WPE serves core and content from root URLs (/wp-admin, /wp-content), not Bedrock's /wp and /app.
-    Config::define('WP_SITEURL', env('WP_SITEURL') ?: env('WP_HOME'));
-    Config::define('WP_CONTENT_URL', env('WP_CONTENT_URL') ?: (env('WP_HOME') . '/wp-content'));
+    // WPE serves core and content from root URLs. Ignore Bedrock /wp and /app .env values.
+    Config::define('WP_SITEURL', env('WP_HOME'));
+    Config::define('WP_CONTENT_URL', rtrim((string) env('WP_HOME'), '/') . '/wp-content');
 } else {
     Config::define('WP_SITEURL', env('WP_SITEURL'));
     Config::define('WP_CONTENT_URL', env('WP_CONTENT_URL') ?: (Config::get('WP_HOME') . Config::get('CONTENT_DIR')));

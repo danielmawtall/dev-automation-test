@@ -7,7 +7,14 @@
  * Public URI for the active theme.
  */
 function ai_dev_theme_uri(): string {
-  return content_url('themes/' . get_stylesheet());
+  $uri = content_url('themes/' . get_stylesheet());
+
+  if (defined('PWP_NAME') && !in_array(PWP_NAME, array('auto-build-test-local', 'binder-local'), true)) {
+    $uri = str_replace(home_url('/app/'), home_url('/wp-content/'), $uri);
+    $uri = str_replace(home_url('/wp/wp-content/'), home_url('/wp-content/'), $uri);
+  }
+
+  return $uri;
 }
 
 /**
