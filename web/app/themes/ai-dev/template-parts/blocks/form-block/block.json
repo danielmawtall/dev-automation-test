@@ -1,0 +1,12 @@
+{
+  "name": "acf/form-block",
+  "title": "Form Block",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "form-block.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-form-block"]
+}

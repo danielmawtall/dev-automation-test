@@ -1,0 +1,26 @@
+/**
+ * Editor styles for the admin
+ */
+
+.gb-block-notice {
+	margin-bottom: 0;
+}
+
+.block-editor-block-list__layout [data-type="genesis-blocks/gb-notice"] {
+	margin-bottom: 1.2em;
+}
+
+.gb-block-notice .gb-notice-text p:first-child {
+	margin-top: 0;
+}
+
+// The frontend stylesheet hides dismissable notices on non-wp-admin bodies:
+//   body:not(.wp-admin) .gb-block-notice.gb-dismissable { display: none }
+// Specificity: 1 element + 1 :not(class) + 2 classes = 0,3,1
+//
+// In the v3 iframed editor the body lacks wp-admin so that rule fires.
+// We need specificity > 0,3,1 to override it. Use the element + two classes
+// to reach 0,2,1, then add a class to reach 0,3,1 and win via source order.
+body.editor-styles-wrapper .gb-block-notice.gb-dismissable {
+	display: block;
+}

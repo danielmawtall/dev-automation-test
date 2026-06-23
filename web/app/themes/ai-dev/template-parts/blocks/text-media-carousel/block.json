@@ -1,0 +1,12 @@
+{
+  "name": "acf/text-media-carousel",
+  "title": "Text Media Carousel",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "text-media-carousel.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-text-media-carousel"]
+}

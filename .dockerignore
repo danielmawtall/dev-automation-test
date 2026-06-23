@@ -1,0 +1,6 @@
+db_data/
+vendor/
+web/wp/
+**/node_modules/
+.git/
+**/.DS_Store

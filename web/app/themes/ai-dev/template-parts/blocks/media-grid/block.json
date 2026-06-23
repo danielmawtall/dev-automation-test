@@ -1,0 +1,13 @@
+{
+  "name": "acf/media-grid",
+  "title": "Media Grid",
+  "description": "Asymmetric 2-column image grid with optional stat panel.",
+  "category": "custom-blocks",
+  "icon": "grid-view",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "media-grid.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-media-grid"]
+}

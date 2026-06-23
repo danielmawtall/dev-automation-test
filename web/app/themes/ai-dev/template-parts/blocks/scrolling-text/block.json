@@ -1,0 +1,12 @@
+{
+  "name": "acf/scrolling-text",
+  "title": "Scrolling Text",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "scrolling-text.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-scrolling-text"]
+}

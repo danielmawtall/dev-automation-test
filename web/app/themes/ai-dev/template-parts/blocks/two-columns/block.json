@@ -1,0 +1,12 @@
+{
+  "name": "acf/two-columns",
+  "title": "Two Columns",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "two-columns.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-two-columns"]
+}

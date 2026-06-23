@@ -1,0 +1,114 @@
+.media-grid {
+  padding-block: var(--space-section);
+
+  &__layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    gap: var(--space-md);
+    align-items: stretch;
+  }
+
+  &__cell {
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+
+    &--left-top {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    &--left-bottom {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    &--right {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      display: flex;
+
+      .media {
+        flex: 1 1 auto;
+        height: 100%;
+        aspect-ratio: auto;
+        min-height: 100%;
+      }
+
+      .media__image {
+        height: 100%;
+        min-height: 100%;
+      }
+    }
+
+    .media {
+      border-radius: var(--radius-sm);
+    }
+  }
+
+  &__stat {
+    aspect-ratio: 1 / 1;
+    background: var(--color-black);
+    color: var(--color-white);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  &__stat-caption {
+    position: relative;
+    z-index: 2;
+    max-width: 14rem;
+
+    .caption {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+
+      &__text {
+        font-family: var(--font-caption);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: -0.03em;
+        color: var(--color-white);
+        line-height: 1.25;
+      }
+    }
+  }
+
+  &__stat-number {
+    position: absolute;
+    right: var(--space-md);
+    bottom: var(--space-md);
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(5rem, 12vw, 10rem);
+    line-height: 0.85;
+    letter-spacing: -0.03em;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .media-grid__layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .media-grid__cell--left-top,
+  .media-grid__cell--left-bottom,
+  .media-grid__cell--right {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .media-grid__cell--right .media {
+    aspect-ratio: 4 / 5;
+    min-height: auto;
+  }
+}

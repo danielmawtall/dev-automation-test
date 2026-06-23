@@ -1,0 +1,43 @@
+// Shared type styles — values from docs/build/DESIGN_SPEC.md (Figma Module List).
+
+%type-body-l {
+  font-family: var(--font-body);
+  font-size: var(--text-body-l);
+  font-weight: 400;
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+}
+
+%type-body-s {
+  font-family: var(--font-body);
+  font-size: var(--text-body-s);
+  font-weight: 400;
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body-s);
+}
+
+%type-heading-l {
+  font-family: var(--font-body);
+  font-size: var(--text-heading-l);
+  font-weight: 400;
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-heading-l);
+}
+
+%type-caption {
+  font-family: var(--font-caption);
+  font-size: var(--text-caption);
+  font-weight: 400;
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-caption);
+  text-transform: uppercase;
+}
+
+%type-display-l {
+  font-family: var(--font-display);
+  font-size: var(--text-display-l);
+  font-weight: 400;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display-l);
+  text-transform: uppercase;
+}

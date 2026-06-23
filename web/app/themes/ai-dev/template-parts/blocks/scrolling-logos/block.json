@@ -1,0 +1,12 @@
+{
+  "name": "acf/scrolling-logos",
+  "title": "Scrolling Logos",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "scrolling-logos.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-scrolling-logos"]
+}

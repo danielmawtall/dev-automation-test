@@ -1,0 +1,12 @@
+{
+  "name": "acf/text-block",
+  "title": "Text Block",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "text-block.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-text-block"]
+}

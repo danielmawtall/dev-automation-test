@@ -1,0 +1,43 @@
+services:
+  wordpress:
+    container_name: ${CLIENT_NAME}-wordpress
+    depends_on:
+      - db
+    links:
+      - db
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+      - 3000:3000
+    environment:
+      - HTTP_EXPOSE=80:80
+      - HTTPS_EXPOSE=443:80
+    volumes:
+      - .:/var/www:cached
+      - ./.docker/server.crt:/etc/apache2/ssl/server.crt:ro
+      - ./.docker/server.key:/etc/apache2/ssl/server.key:ro
+    hostname: ${DOCKER_HOSTNAME}
+  db:
+    container_name: ${CLIENT_NAME}-db
+    image: mariadb:10.4
+    volumes:
+      - db_data:/var/lib/mysql
+      - .:/var/lib/temp
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - ${DB_EXTERNAL_PORT}:3306
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: ${DB_RANDOM_ROOT_PASSWORD}
+volumes:
+  db_data:

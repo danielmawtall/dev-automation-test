@@ -1,0 +1,12 @@
+{
+  "name": "acf/work-grid",
+  "title": "Work Grid",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "work-grid.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-work-grid"]
+}

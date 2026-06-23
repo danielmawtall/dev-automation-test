@@ -1,0 +1,12 @@
+{
+  "name": "acf/heading-block",
+  "title": "Heading Block",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "heading-block.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-heading-block"]
+}

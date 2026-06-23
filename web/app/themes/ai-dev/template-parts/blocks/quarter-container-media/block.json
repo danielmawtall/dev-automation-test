@@ -1,0 +1,12 @@
+{
+  "name": "acf/quarter-container-media",
+  "title": "Quarter Container Media",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "quarter-container-media.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-quarter-container-media"]
+}

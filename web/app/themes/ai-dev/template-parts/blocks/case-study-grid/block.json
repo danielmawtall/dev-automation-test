@@ -1,0 +1,12 @@
+{
+  "name": "acf/case-study-grid",
+  "title": "Case Study Grid",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "case-study-grid.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-case-study-grid"]
+}

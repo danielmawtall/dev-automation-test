@@ -1,0 +1,12 @@
+{
+  "name": "acf/content-block",
+  "title": "Content Block",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "content-block.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-content-block"]
+}

@@ -1,0 +1,179 @@
+/**
+ * Internal dependencies
+ */
+import classnames from 'classnames';
+import Inspector from './inspector';
+import Testimonial from './testimonial';
+import icons from './../../../utils/components/icons';
+
+/**
+ * WordPress dependencies
+ */
+const { __ } = wp.i18n;
+const { Component, Fragment } = wp.element;
+const { RichText, AlignmentToolbar, BlockControls, MediaUpload, useBlockProps } =
+	wp.blockEditor;
+const { Button, Dashicon } = wp.components;
+
+const ALLOWED_MEDIA_TYPES = ['image'];
+
+/* Wrapper required for Block API v3 */
+export default function Edit(props) {
+	const blockProps = useBlockProps();
+
+	return <EditClass {...props} blockProps={blockProps} />;
+}
+
+class EditClass extends Component {
+	render() {
+		// Setup the attributes
+		const {
+			attributes: {
+				testimonialName,
+				testimonialTitle,
+				testimonialContent,
+				testimonialAlignment,
+				testimonialImgURL,
+				testimonialImgID,
+				testimonialImgAlt,
+				testimonialTextColor,
+			},
+			setAttributes,
+		} = this.props;
+
+		const onRemoveImage = () => {
+			setAttributes({
+				testimonialImgURL: null,
+				testimonialImgID: null,
+				testimonialImgAlt: null,
+			});
+		};
+
+		return (
+			<Testimonial
+				key={'gb-testimonial-editor-' + this.props.clientId}
+				{...this.props}
+			>
+				{/*Show the alignment toolbar on focus*/}
+				<BlockControls key="controls">
+					<AlignmentToolbar
+						value={testimonialAlignment}
+						onChange={(value) =>
+							setAttributes({ testimonialAlignment: value })
+						}
+					/>
+				</BlockControls>
+
+				{/*Show the block controls on focus*/}
+				<Inspector
+					key={'gb-testimonial-inspector-' + this.props.clientId}
+					{...{ setAttributes, ...this.props }}
+				/>
+					<RichText
+						tagName="div"
+						placeholder={__('Add testimonial text…', 'genesis-blocks')}
+						value={testimonialContent}
+						allowedFormats={[
+							'core/bold',
+							'core/italic',
+							'core/strikethrough',
+							'core/link',
+						]}
+						className={classnames('gb-testimonial-text')}
+						style={{ textAlign: testimonialAlignment }}
+						onChange={(value) =>
+							setAttributes({ testimonialContent: value })
+						}
+					/>
+
+					<div className="gb-testimonial-info">
+						<div className="gb-testimonial-avatar-wrap">
+							<div className="gb-testimonial-image-wrap">
+								<MediaUpload
+									buttonProps={{
+										className: 'change-image',
+									}}
+									onSelect={(img) =>
+										setAttributes({
+											testimonialImgID: img.id,
+											testimonialImgURL:
+												img.sizes.thumbnail.url,
+											testimonialImgAlt: img.alt,
+										})
+									}
+									allowed={ALLOWED_MEDIA_TYPES}
+									type="image"
+									value={testimonialImgID}
+									render={({ open }) => (
+										<Fragment>
+											<Button
+												className={
+													testimonialImgID
+														? 'gb-change-image'
+														: 'gb-add-image'
+												}
+												onClick={open}
+											>
+												{!testimonialImgID ? (
+													icons.upload
+												) : (
+													<img
+														className="gb-testimonial-avatar"
+														src={testimonialImgURL}
+														alt={
+																testimonialImgAlt
+																	? testimonialImgAlt
+																	: null
+														}
+													/>
+												)}
+											</Button>
+
+											{testimonialImgID && (
+												<Button
+													className="gb-remove-image"
+													onClick={onRemoveImage}
+												>
+													<Dashicon icon={'dismiss'} />
+												</Button>
+											)}
+										</Fragment>
+									)}
+								/>
+							</div>
+						</div>
+
+						<RichText
+							tagName="h2"
+							placeholder={__('Add name', 'genesis-blocks')}
+							value={testimonialName}
+							className="gb-testimonial-name"
+							style={{
+								color: testimonialTextColor
+							}}
+							onChange={(value) =>
+								this.props.setAttributes({
+									testimonialName: value,
+								})
+							}
+						/>
+
+						<RichText
+							tagName="small"
+							placeholder={__('Add title', 'genesis-blocks')}
+							value={testimonialTitle}
+							className="gb-testimonial-title"
+							style={{
+								color: testimonialTextColor
+							}}
+							onChange={(value) =>
+								this.props.setAttributes({
+									testimonialTitle: value,
+								})
+							}
+						/>
+					</div>
+			</Testimonial>
+		);
+	}
+}

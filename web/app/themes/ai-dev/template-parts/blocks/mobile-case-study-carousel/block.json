@@ -1,0 +1,12 @@
+{
+  "name": "acf/mobile-case-study-carousel",
+  "title": "Mobile Case Study Carousel",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "mobile-case-study-carousel.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-mobile-case-study-carousel"]
+}

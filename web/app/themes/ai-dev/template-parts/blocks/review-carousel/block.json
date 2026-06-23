@@ -1,0 +1,12 @@
+{
+  "name": "acf/review-carousel",
+  "title": "Review Carousel",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "review-carousel.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-review-carousel"]
+}

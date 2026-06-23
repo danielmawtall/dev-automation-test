@@ -1,0 +1,12 @@
+{
+  "name": "acf/full-width-media",
+  "title": "Full Width Media",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "full-width-media.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-full-width-media"]
+}

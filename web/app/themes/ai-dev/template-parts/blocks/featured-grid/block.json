@@ -1,0 +1,12 @@
+{
+  "name": "acf/featured-grid",
+  "title": "Featured Grid",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "featured-grid.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-featured-grid"]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "acf/skewed-reveal",
+  "title": "Skewed Reveal",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "skewed-reveal.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-skewed-reveal"]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "acf/centered-list",
+  "title": "Centered List",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "centered-list.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-centered-list"]
+}

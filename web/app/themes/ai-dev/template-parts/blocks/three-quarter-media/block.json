@@ -1,0 +1,12 @@
+{
+  "name": "acf/three-quarter-media",
+  "title": "Three Quarter Media",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "three-quarter-media.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-three-quarter-media"]
+}

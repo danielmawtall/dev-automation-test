@@ -1,0 +1,12 @@
+{
+  "name": "acf/three-columns",
+  "title": "Three Columns",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "three-columns.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-three-columns"]
+}

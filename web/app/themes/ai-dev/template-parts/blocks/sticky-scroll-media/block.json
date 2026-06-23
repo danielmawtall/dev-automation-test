@@ -1,0 +1,12 @@
+{
+  "name": "acf/sticky-scroll-media",
+  "title": "Sticky Scroll Media",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "sticky-scroll-media.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-sticky-scroll-media"]
+}

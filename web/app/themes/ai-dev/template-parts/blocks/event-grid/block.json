@@ -1,0 +1,12 @@
+{
+  "name": "acf/event-grid",
+  "title": "Event Grid",
+  "category": "custom-blocks",
+  "icon": "grid-view",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "event-grid.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-event-grid"]
+}

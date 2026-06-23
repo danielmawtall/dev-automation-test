@@ -1,0 +1,12 @@
+{
+  "name": "acf/spacer",
+  "title": "Spacer",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "spacer.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-spacer"]
+}

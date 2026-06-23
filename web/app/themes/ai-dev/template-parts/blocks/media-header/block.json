@@ -1,0 +1,12 @@
+{
+  "name": "acf/media-header",
+  "title": "Media Header",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "media-header.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-media-header"]
+}

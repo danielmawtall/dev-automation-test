@@ -1,0 +1,12 @@
+{
+  "name": "acf/half-container-media",
+  "title": "Half Container Media",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "half-container-media.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-half-container-media"]
+}

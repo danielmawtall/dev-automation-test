@@ -1,0 +1,12 @@
+{
+  "name": "acf/text-media",
+  "title": "Text Media",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "text-media.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-text-media"]
+}

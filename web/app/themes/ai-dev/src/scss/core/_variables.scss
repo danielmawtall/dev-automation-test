@@ -1,0 +1,44 @@
+:root {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-ivory: #f2f3ec;
+  --color-orange: #ff4400;
+  --color-forest: #11302d;
+  --color-overlay: rgba(0, 0, 0, 0.4);
+
+  --font-display: 'Anton', sans-serif;
+  /* Swap Inter for licensed Uncut Sans files in assets/fonts/ when available */
+  --font-body: 'Uncut Sans', 'Inter', system-ui, sans-serif;
+  --font-caption: 'IBM Plex Mono', monospace;
+
+  --text-marquee-max: 18.75rem;
+  --text-display-xl: 15rem;
+  --text-display-l: 10rem;
+  --text-display-m: 5rem;
+  --text-heading-l: 2.5rem;
+  --text-body-l: 1.5rem;
+  --text-body-s: 1rem;
+  --text-caption: 0.75rem;
+
+  --leading-body: 1.25;
+  --leading-display: 1;
+  --tracking-body: -0.03em;
+  --tracking-body-s: -0.03em;
+  --tracking-heading-l: -0.03em;
+  --tracking-caption: -0.03em;
+  --tracking-display-l: -0.03em;
+
+  --space-page: 20px;
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 48px;
+  --space-xl: 80px;
+  --space-section: 200px;
+  --space-2xl: 120px;
+
+  --container-max: 1440px;
+  --header-height: 70px;
+  --radius-sm: 5px;
+  --transition: 0.3s ease;
+}

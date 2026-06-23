@@ -1,0 +1,9 @@
+<!-- wp:acf/text-block {"name":"acf/text-block","data":{"caption_icon":"dot","_caption_icon":"field_ai_dev_tb_caption_icon","caption":"5.0 Automatic","_caption":"field_ai_dev_tb_caption","heading":"Automatic modules (Figma 74:7473)","_heading":"field_ai_dev_tb_heading","body":"\u003cp\u003e\u003ca href=\"HOSTNAME_PLACEHOLDER/modules/\"\u003e\u2190 All module groups\u003c/a\u003e\u003c/p\u003e","_body":"field_ai_dev_tb_body","layout":"left","_layout":"field_ai_dev_tb_layout","style":"","_style":"field_ai_dev_tb_style","buttons":"","_buttons":"field_ai_dev_tb_buttons"},"mode":"preview"} /-->
+
+<!-- wp:acf/spacer {"name":"acf/spacer","data":{"padding_top_desktop":"0","_padding_top_desktop":"field_ai_dev_spacer_top_desktop","padding_bottom_desktop":"100","_padding_bottom_desktop":"field_ai_dev_spacer_bottom_desktop","padding_top_mobile":"0","_padding_top_mobile":"field_ai_dev_spacer_top_mobile","padding_bottom_mobile":"50","_padding_bottom_mobile":"field_ai_dev_spacer_bottom_mobile"},"mode":"preview"} /-->
+
+<!-- wp:acf/scrolling-logos {"name":"acf/scrolling-logos","data":{"logos":["20","21","22","23","24","25","26"],"_logos":"field_ai_dev_sl_logos"},"mode":"preview"} /-->
+
+<!-- wp:acf/spacer {"name":"acf/spacer","data":{"padding_top_desktop":"0","_padding_top_desktop":"field_ai_dev_spacer_top_desktop","padding_bottom_desktop":"100","_padding_bottom_desktop":"field_ai_dev_spacer_bottom_desktop","padding_top_mobile":"0","_padding_top_mobile":"field_ai_dev_spacer_top_mobile","padding_bottom_mobile":"50","_padding_bottom_mobile":"field_ai_dev_spacer_bottom_mobile"},"mode":"preview"} /-->
+
+<!-- wp:acf/scrolling-text {"name":"acf/scrolling-text","data":{"line_1":"DIFFERENCE CAN\u2019T BE IGNORED","_line_1":"field_ai_dev_st_line1","line_2":"DIFFERENCE CAN\u2019T BE IGNORED","_line_2":"field_ai_dev_st_line2"},"mode":"preview"} /-->

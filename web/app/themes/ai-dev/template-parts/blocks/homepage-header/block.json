@@ -1,0 +1,12 @@
+{
+  "name": "acf/homepage-header",
+  "title": "Homepage Header",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "homepage-header.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-homepage-header"]
+}

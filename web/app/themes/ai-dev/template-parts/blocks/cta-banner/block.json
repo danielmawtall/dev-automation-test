@@ -1,0 +1,12 @@
+{
+  "name": "acf/cta-banner",
+  "title": "Cta Banner",
+  "category": "custom-blocks",
+  "icon": "layout",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "cta-banner.php",
+    "postTypes": ["page", "case-study"]
+  },
+  "script": ["block-cta-banner"]
+}

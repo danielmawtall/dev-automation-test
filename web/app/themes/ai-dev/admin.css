@@ -1,0 +1,11 @@
+html :where(.wp-block) {
+  max-width: none;
+}
+
+.editor-styles-wrapper {
+  background: #fff;
+}
+
+.block__placeholder {
+  opacity: 0.6;
+}
