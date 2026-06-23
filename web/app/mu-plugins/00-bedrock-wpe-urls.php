@@ -8,6 +8,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (defined('BEDROCK_WPE_URLS_LOADED')) {
+    return;
+}
+
+define('BEDROCK_WPE_URLS_LOADED', true);
+
 /**
  * Whether the site is running on WP Engine (not local WPE stubs).
  */
@@ -17,6 +23,10 @@ function bedrock_wpe_is_platform(): bool
 
     if ($is_wpe !== null) {
         return $is_wpe;
+    }
+
+    if (defined('BEDROCK_USE_WPE_PUBLIC_URLS') && BEDROCK_USE_WPE_PUBLIC_URLS) {
+        return $is_wpe = true;
     }
 
     $local_stubs = ['auto-build-test-local', 'binder-local'];

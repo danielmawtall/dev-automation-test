@@ -41,6 +41,9 @@ if (!is_string($pwp_name) || $pwp_name === '') {
 }
 
 $http_host = $_SERVER['HTTP_HOST'] ?? '';
+$is_local_host = is_string($http_host) && $http_host !== ''
+    && (str_contains($http_host, 'ssl.localhost') || preg_match('/(^|\.)localhost(?::\d+)?$/', $http_host));
+
 $is_wpe_host = is_string($http_host) && $http_host !== ''
     && preg_match('/(^|\\.)wpengine(powered)?\\.com$/i', $http_host);
 
@@ -50,8 +53,10 @@ $is_wpe = $is_wpe_host
     || !empty($_SERVER['HTTP_X_WPE_SSL'])
     || (is_string($pwp_name) && $pwp_name !== '' && !in_array($pwp_name, $local_wpe_stubs, true));
 
-if ($is_wpe && $is_wpe_host) {
-    // WPE serves at the site root. Ignore .env Bedrock /wp paths and use the request host.
+$uses_wpe_public_urls = false;
+
+if (is_string($http_host) && $http_host !== '' && !$is_local_host) {
+    // Remote web requests: serve core and content from the site root, not /wp or /app.
     $scheme = 'http';
 
     if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
@@ -61,9 +66,11 @@ if ($is_wpe && $is_wpe_host) {
     }
 
     $wp_home = $scheme . '://' . $http_host;
+    $uses_wpe_public_urls = true;
 } elseif ($is_wpe) {
     // WP-CLI / cron: strip a trailing /wp from Bedrock-style .env values.
     $wp_home = (string) preg_replace('#/wp$#', '', $wp_home);
+    $uses_wpe_public_urls = true;
 }
 
 Config::define('WP_HOME', $wp_home);
@@ -71,7 +78,8 @@ Config::define('WP_HOME', $wp_home);
 Config::define('CONTENT_DIR', '/app');
 Config::define('WP_CONTENT_DIR', $webroot_dir . Config::get('CONTENT_DIR'));
 
-if ($is_wpe) {
+if ($uses_wpe_public_urls) {
+    Config::define('BEDROCK_USE_WPE_PUBLIC_URLS', true);
     // WPE serves core and content from root URLs. Ignore Bedrock /wp and /app .env values.
     Config::define('WP_SITEURL', $wp_home);
     Config::define('WP_CONTENT_URL', $wp_home . '/wp-content');
