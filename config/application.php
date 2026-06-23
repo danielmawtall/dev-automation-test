@@ -83,6 +83,10 @@ if ($uses_wpe_public_urls) {
     // WPE serves core and content from root URLs. Ignore Bedrock /wp and /app .env values.
     Config::define('WP_SITEURL', $wp_home);
     Config::define('WP_CONTENT_URL', $wp_home . '/wp-content');
+    Config::define('COOKIEPATH', '/');
+    Config::define('SITECOOKIEPATH', '/');
+    Config::define('ADMIN_COOKIE_PATH', '/');
+    Config::define('PLUGINS_COOKIE_PATH', '/');
 } else {
     Config::define('WP_SITEURL', env('WP_SITEURL'));
     Config::define('WP_CONTENT_URL', env('WP_CONTENT_URL') ?: (Config::get('WP_HOME') . Config::get('CONTENT_DIR')));

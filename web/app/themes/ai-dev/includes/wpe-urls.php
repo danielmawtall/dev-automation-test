@@ -74,6 +74,26 @@ add_filter('wp_redirect', static function ($location) {
   return ai_dev_fix_wpe_url($location);
 }, 1);
 
+add_filter('login_redirect', static function ($redirect_to) {
+  if (!ai_dev_is_wpe_host() || !is_string($redirect_to) || $redirect_to === '') {
+    return $redirect_to;
+  }
+
+  return ai_dev_fix_wpe_url($redirect_to);
+}, 1);
+
+add_filter('redirect_canonical', static function ($redirect_url) {
+  if (!ai_dev_is_wpe_host()) {
+    return $redirect_url;
+  }
+
+  if (is_string($redirect_url) && $redirect_url !== '') {
+    return ai_dev_fix_wpe_url($redirect_url);
+  }
+
+  return $redirect_url;
+}, 1);
+
 add_filter('wp_get_attachment_image_src', static function ($image) {
   if (!ai_dev_is_wpe_host() || !is_array($image) || empty($image[0]) || !is_string($image[0])) {
     return $image;
