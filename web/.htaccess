@@ -3,6 +3,13 @@
 RewriteEngine On
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteBase /
+
+# Bedrock on WP Engine: map /wp/wp-* requests to WPE root paths.
+RewriteRule ^wp/wp-content/(.*)$ wp-content/$1 [L]
+RewriteRule ^wp/wp-includes/(.*)$ wp-includes/$1 [L]
+RewriteRule ^wp/wp-admin/(.*)$ wp-admin/$1 [L]
+RewriteRule ^wp/wp-login\.php$ wp-login.php [L,QSA]
+
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

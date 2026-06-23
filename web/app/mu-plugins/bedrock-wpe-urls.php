@@ -140,6 +140,8 @@ add_filter('pre_option_upload_path', static function ($pre) {
 });
 
 add_filter('includes_url', 'bedrock_wpe_maybe_fix_url', 20);
+add_filter('content_url', 'bedrock_wpe_maybe_fix_url', 20);
+add_filter('plugins_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('admin_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('login_url', 'bedrock_wpe_maybe_fix_url', 20);
 add_filter('style_loader_src', 'bedrock_wpe_maybe_fix_url', 20);

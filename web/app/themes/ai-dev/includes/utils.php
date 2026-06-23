@@ -17,11 +17,24 @@ function ai_dev_is_wpe_host(): bool {
 }
 
 /**
+ * Site home URL without Bedrock /wp suffix on WP Engine.
+ */
+function ai_dev_public_home(): string {
+  $home = defined('WP_HOME') ? rtrim(WP_HOME, '/') : '';
+
+  if (ai_dev_is_wpe_host()) {
+    $home = (string) preg_replace('#/wp$#', '', $home);
+  }
+
+  return $home;
+}
+
+/**
  * Public URI for the active theme.
  */
 function ai_dev_theme_uri(): string {
-  if (ai_dev_is_wpe_host() && defined('WP_HOME')) {
-    return rtrim(WP_HOME, '/') . '/wp-content/themes/' . get_stylesheet();
+  if (ai_dev_is_wpe_host()) {
+    return ai_dev_public_home() . '/wp-content/themes/' . get_stylesheet();
   }
 
   return content_url('themes/' . get_stylesheet());

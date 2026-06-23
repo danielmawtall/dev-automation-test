@@ -32,11 +32,6 @@ if (!env('WP_ENVIRONMENT_TYPE') && in_array(WP_ENV, ['production', 'staging', 'd
 
 $wp_home = rtrim((string) env('WP_HOME'), '/');
 
-Config::define('WP_HOME', $wp_home);
-
-Config::define('CONTENT_DIR', '/app');
-Config::define('WP_CONTENT_DIR', $webroot_dir . Config::get('CONTENT_DIR'));
-
 $local_wpe_stubs = ['auto-build-test-local', 'binder-local'];
 $pwp_name = env('PWP_NAME');
 
@@ -54,6 +49,16 @@ $is_wpe = $is_wpe_host
     || !empty($_SERVER['IS_WPE'])
     || !empty($_SERVER['HTTP_X_WPE_SSL'])
     || (is_string($pwp_name) && $pwp_name !== '' && !in_array($pwp_name, $local_wpe_stubs, true));
+
+if ($is_wpe) {
+    // Some WPE .env files set WP_HOME with a /wp suffix from Bedrock defaults.
+    $wp_home = (string) preg_replace('#/wp$#', '', $wp_home);
+}
+
+Config::define('WP_HOME', $wp_home);
+
+Config::define('CONTENT_DIR', '/app');
+Config::define('WP_CONTENT_DIR', $webroot_dir . Config::get('CONTENT_DIR'));
 
 if ($is_wpe) {
     // WPE serves core and content from root URLs. Ignore Bedrock /wp and /app .env values.
