@@ -8,7 +8,7 @@
  * Note: This is a Must-Use (MU) plugin. Place this file in the 'wp-content/mu-plugins' directory.
  */
 
-require_once dirname(__DIR__) . '/wpe-cookie-bootstrap.php';
+require_once dirname(__DIR__) . '/themes/ai-dev/includes/wpe-cookie-bootstrap.php';
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.

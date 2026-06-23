@@ -3,7 +3,7 @@
  * Shared Bedrock-on-WPE URL fix. Loaded from mu-plugins; delegates to the active theme.
  */
 
-require_once dirname(__DIR__) . '/wpe-cookie-bootstrap.php';
+require_once dirname(__DIR__) . '/themes/ai-dev/includes/wpe-cookie-bootstrap.php';
 
 if (!defined('ABSPATH')) {
     exit;

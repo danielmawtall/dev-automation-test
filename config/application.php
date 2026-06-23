@@ -9,6 +9,12 @@ use function Env\env;
 $root_dir = dirname(__DIR__);
 $webroot_dir = $root_dir . '/web';
 
+$wpe_cookie_bootstrap = $webroot_dir . '/app/themes/ai-dev/includes/wpe-cookie-bootstrap.php';
+
+if (is_readable($wpe_cookie_bootstrap)) {
+    require_once $wpe_cookie_bootstrap;
+}
+
 if (file_exists($root_dir . '/.env')) {
     $env_files = file_exists($root_dir . '/.env.local')
         ? ['.env', '.env.local']
@@ -148,8 +154,6 @@ if (file_exists($env_config)) {
 }
 
 Config::apply();
-
-require_once $webroot_dir . '/app/wpe-cookie-bootstrap.php';
 
 if (!defined('WPMU_PLUGIN_DIR')) {
     define('WPMU_PLUGIN_DIR', WP_CONTENT_DIR . '/mu-plugins');
