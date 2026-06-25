@@ -213,10 +213,9 @@
   }
 
   .featured-grid__sidebar-intro {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-md);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
   }
 
   .featured-grid__sidebar .caption {
