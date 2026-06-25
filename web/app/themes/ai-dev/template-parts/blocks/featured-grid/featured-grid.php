@@ -7,11 +7,15 @@ $has_content = ai_dev_block_has_content(array(get_field('heading'), $items));
   <div class="featured-grid__layout container">
     <?php if ($has_content) : ?>
       <aside class="featured-grid__sidebar">
-        <?php if (get_field('label')) : ?>
-          <?php get_template_part('template-parts/components/caption', null, array('icon' => 'dot', 'text' => get_field('label'))); ?>
-        <?php endif; ?>
-        <?php if (get_field('heading')) : ?>
-          <h2 class="featured-grid__heading"><?php echo esc_html(get_field('heading')); ?></h2>
+        <?php if (get_field('label') || get_field('heading')) : ?>
+          <div class="featured-grid__sidebar-intro">
+            <?php if (get_field('label')) : ?>
+              <?php get_template_part('template-parts/components/caption', null, array('icon' => 'dot', 'text' => get_field('label'))); ?>
+            <?php endif; ?>
+            <?php if (get_field('heading')) : ?>
+              <h2 class="featured-grid__heading"><?php echo esc_html(get_field('heading')); ?></h2>
+            <?php endif; ?>
+          </div>
         <?php endif; ?>
         <?php if (get_field('show_button')) :
           $btn = get_field('button');
