@@ -47,5 +47,9 @@
       grid-template-columns: 1fr;
       gap: var(--space-md);
     }
+
+    &--intro .text-block__heading {
+      font-size: var(--text-body-l);
+    }
   }
 }
