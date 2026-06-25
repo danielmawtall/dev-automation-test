@@ -1,0 +1,77 @@
+{
+  "project_id": "527751",
+  "project_name": "Tall Dev",
+  "board_url": "https://www.bugherd.com/projects/527751/kanban",
+  "columns": {
+    "backlog": "Backlog",
+    "todo": "Todo",
+    "in_progress": "In progress",
+    "content": "Content",
+    "ready_for_client_qa": "Ready for client QA",
+    "ready_for_qa": "Ready for Tall QA",
+    "done": "Done"
+  },
+  "comment_markers": {
+    "plan": "(via Cursor — plan)",
+    "revised_plan": "(via Cursor — revised plan)",
+    "agent": "(via Cursor)"
+  },
+  "reopened_backlog": {
+    "prompt_after_minutes": 10,
+    "loop_interval": "10m"
+  },
+  "plan_automation": {
+    "auto_plan_rework": true,
+    "max_tasks_per_run": 1
+  },
+  "git": {
+    "deploy_branch": "main",
+    "task_branch_prefix": "bugherd/task-",
+    "never_commit_to_deploy_branch": true
+  },
+  "implement_automation": {
+    "dry_run": true,
+    "max_review_loops": 3,
+    "max_tasks_per_run": 1,
+    "base_branch": "main",
+    "branch_prefix": "bugherd/task-",
+    "merge_pr_to_deploy": true
+  },
+  "deploy": {
+    "trigger": "push to main",
+    "staging_url": "https://talldevstg.wpenginepowered.com",
+    "note": "Staging auto-deploys when main is updated. Task branches do not deploy until merged."
+  },
+  "urls": {
+    "local": "https://auto-build-test.ssl.localhost",
+    "staging": "https://talldevstg.wpenginepowered.com"
+  },
+  "repo": {
+    "github": "danielmawtall/dev-automation-test",
+    "theme_path": "web/app/themes/ai-dev"
+  },
+  "scripts": {
+    "loop_prompt": "scripts/bugherd/loop-reopened-backlog-prompt.md",
+    "automation_prompt_phase1": "scripts/bugherd/automation-reopened-backlog-prompt.md",
+    "automation_prompt_plan": "scripts/bugherd/automation-backlog-plan-prompt.md",
+    "automation_prompt_implement": "scripts/bugherd/automation-todo-implement-prompt.md",
+    "theme_build": "scripts/deployhq-build.sh",
+    "qa_homepage": "scripts/qa-homepage.sh"
+  },
+  "automation": {
+    "schedule_cron": "*/10 * * * *",
+    "mcp_server": "BugHerd",
+    "phase1_reopened_backlog": {
+      "workflow": ".cursor/automations/tall-dev-reopened-backlog.yaml",
+      "prompt": "scripts/bugherd/automation-reopened-backlog-prompt.md"
+    },
+    "phase2_backlog_plan": {
+      "workflow": ".cursor/automations/tall-dev-backlog-plan.yaml",
+      "prompt": "scripts/bugherd/automation-backlog-plan-prompt.md"
+    },
+    "phase3_todo_implement": {
+      "workflow": ".cursor/automations/tall-dev-todo-implement.yaml",
+      "prompt": "scripts/bugherd/automation-todo-implement-prompt.md"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "BugHerd": {
+      "url": "https://mcp.bugherd.com/mcp",
+      "auth": {
+        "CLIENT_ID": "Cursor",
+        "scopes": ["read write"]
+      },
+      "headers": {}
+    }
+  }
+}

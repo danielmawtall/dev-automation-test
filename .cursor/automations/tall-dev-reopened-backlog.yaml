@@ -1,0 +1,32 @@
+name: "Tall Dev - reopened Backlog nudge"
+description: >-
+  Every 10 minutes, check BugHerd Backlog for tasks returned from QA without an
+  issue comment; nudge the requester after 10 minutes. Never implement fixes or
+  change task status.
+workflow:
+  triggers:
+    - cron:
+        cron: "*/10 * * * *"
+  actions:
+    - mcp:
+        server:
+          name: BugHerd
+  prompts:
+    - prompt: |
+        You are running the Tall Dev BugHerd reopened-Backlog watcher (comments only).
+
+        Read and follow these files in the workspace:
+        - `.cursor/skills/bugherd/SKILL.md` (Reopened Backlog section)
+        - `scripts/bugherd/automation-reopened-backlog-prompt.md`
+
+        Use BugHerd MCP for project `527751`. Never change code, deploy, task status, or assignees.
+        Follow duplicate-nudge and skip-new-ticket rules in the prompt file.
+
+        End with a one-paragraph summary of what you checked and any nudges posted.
+  model: ""
+  gitConfig:
+    repo: "danielmawtall/dev-automation-test"
+    branch: "main"
+  agentOptions:
+    skipInstall: false
+  memoryEnabled: false

@@ -1,0 +1,47 @@
+name: "Tall Dev - Todo review and implement"
+description: >-
+  Every 10 minutes, review Todo tasks with agent plans, interpret the latest
+  human comment (approve / revise / clarify), then implement only on clear approval.
+workflow:
+  triggers:
+    - cron:
+        cron: "*/10 * * * *"
+  actions:
+    - mcp:
+        server:
+          name: BugHerd
+    - gitPr: {}
+  prompts:
+    - prompt: |
+        You are the Tall Dev BugHerd Todo implementer (Phase 3). Semantic comment review then implement.
+
+        Use BugHerd MCP. Read tool schemas before calling. Project 527751, column Todo.
+
+        Read repo files when available:
+        - `.cursor/skills/bugherd/config.json`
+        - `.cursor/skills/bugherd/SKILL.md`
+        - `scripts/bugherd/automation-todo-implement-prompt.md`
+
+        If implement_automation.dry_run is true in config: classify and comment only; no code or status to In progress. Say DRY RUN in summary.
+
+        Max one task per run.
+
+        Git: one branch per task — bugherd/task-{id} from main. Never commit to main directly. Push task branch, PR to main, merge (staging auto-deploys on main only). Screenshot staging after merge. Reuse same branch for rework on that task.
+
+        On approve: checkout/create bugherd/task-{id}, update_task In progress, fix in web/app/themes/ai-dev on task branch only, npm run build, commit, push, PR to main, merge, staging screenshot, handoff comment with branch/PR, assign requester, Ready for Tall QA.
+
+        On revise: add_comment revised plan, stay Todo, end (via Cursor — revised plan), no code.
+
+        On unclear: one clarifying add_comment, stay Todo, end (via Cursor).
+
+        Not keyword-only. After max_review_loops without approve: tag requester to resolve in thread.
+
+        End summary: checked, classifications, actions, dry run flag, blockers.
+  model: ""
+  gitConfig:
+    # Checkout base only — all task work happens on bugherd/task-{id} branches
+    repo: "danielmawtall/dev-automation-test"
+    branch: "main"
+  agentOptions:
+    skipInstall: false
+  memoryEnabled: false
