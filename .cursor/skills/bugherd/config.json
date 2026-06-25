@@ -30,7 +30,7 @@
     "never_commit_to_deploy_branch": true
   },
   "implement_automation": {
-    "dry_run": true,
+    "dry_run": false,
     "max_review_loops": 3,
     "max_tasks_per_run": 1,
     "base_branch": "main",
