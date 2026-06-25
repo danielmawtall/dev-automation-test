@@ -11,6 +11,7 @@ function ai_dev_sync_bugherd_media(): void {
   }
 
   ai_dev_sync_lego_case_study_thumbnail();
+  ai_dev_sync_homepage_forest_panel_image();
 }
 
 /**
@@ -41,6 +42,60 @@ function ai_dev_sync_lego_case_study_thumbnail(): void {
   set_post_thumbnail($post_id, $attachment_id);
 
   $synced['lego_case_study_thumb'] = $sync_version;
+  update_option($option_key, $synced);
+}
+
+/**
+ * Homepage featured grid forest panel (page 7, items index 7).
+ * BugHerd task 5: replace forest SVG placeholder with lego-creative-quests.jpg.
+ */
+function ai_dev_sync_homepage_forest_panel_image(): void {
+  $sync_version = 'bugherd-task-5-forest-panel-lego';
+  $option_key = 'ai_dev_bugherd_media_sync';
+  $synced = get_option($option_key, array());
+
+  if (($synced['homepage_forest_panel'] ?? '') === $sync_version) {
+    return;
+  }
+
+  $page_id = 7;
+  $file = get_template_directory() . '/assets/img/lego-creative-quests.jpg';
+  $page = get_post($page_id);
+
+  if (!file_exists($file) || !$page) {
+    return;
+  }
+
+  $attachment_id = ai_dev_import_theme_image($file, 'LEGO Creative Quests featured forest panel');
+  if (!$attachment_id) {
+    return;
+  }
+
+  $content = $page->post_content;
+  if (!str_contains($content, 'acf/featured-grid')) {
+    return;
+  }
+
+  $updated = preg_replace(
+    '/"items_7_media"\s*:\s*(""|"\d+")/',
+    '"items_7_media":' . $attachment_id,
+    $content,
+    1,
+    $count
+  );
+
+  if (!$count) {
+    return;
+  }
+
+  wp_update_post(
+    array(
+      'ID'           => $page_id,
+      'post_content' => $updated,
+    )
+  );
+
+  $synced['homepage_forest_panel'] = $sync_version;
   update_option($option_key, $synced);
 }
 

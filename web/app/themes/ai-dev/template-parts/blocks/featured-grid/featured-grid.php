@@ -54,6 +54,15 @@ $has_content = ai_dev_block_has_content(array(get_field('heading'), $items));
                       <span class="featured-card__label"><?php echo esc_html($item['label']); ?></span>
                     <?php endif; ?>
                   </div>
+                <?php elseif ($ratio === 'forest' && $media_id) : ?>
+                  <div class="featured-card__media featured-card__media--forest featured-card__media--forest-image">
+                    <?php
+                    echo wp_get_attachment_image($media_id, 'card-landscape', false, array(
+                      'class' => 'featured-card__image',
+                      'loading' => 'lazy',
+                    ));
+                    ?>
+                  </div>
                 <?php elseif ($ratio === 'forest') : ?>
                   <div class="featured-card__media featured-card__media--forest" aria-hidden="true"></div>
                 <?php elseif ($ratio === 'short' && $media_id) : ?>

@@ -132,6 +132,11 @@
     background-size: min(72%, 420px) auto;
   }
 
+  &--forest &__media--forest-image {
+    background-image: none;
+    background-color: transparent;
+  }
+
   &__image {
     display: block;
     width: 100%;
