@@ -25,7 +25,7 @@ download() {
 # Skewed reveal centre portrait (Figma 76:3992)
 SKEWED_IMG=$(download "skewed-reveal-portrait.jpg" "https://www.figma.com/api/mcp/asset/23fba8f6-8e97-40b1-912e-5280165e2ac3")
 RESHAPE_IMG=$(download "footer-reshape-possible.svg" "https://www.figma.com/api/mcp/asset/988c298b-2b79-4dc1-84ba-31935c34d332")
-CASE_LEGO=$(download "case-study-lego.png" "https://www.figma.com/api/mcp/asset/b4175e3c-b113-4367-8af4-28d5784b2155")
+CASE_LEGO="${ROOT}/web/app/themes/ai-dev/assets/img/lego-creative-quests.jpg"
 CASE_TOFOO=$(download "case-study-tofoo.png" "https://www.figma.com/api/mcp/asset/884b628b-225b-42e7-bd78-ffcee463b387")
 FG_LEADERSHIP=$(download "featured-leadership.jpg" "https://www.figma.com/api/mcp/asset/89942264-ac1a-48e4-a3f0-5f265572a6e0")
 FG_TOFOO=$(download "featured-tofoo.png" "https://www.figma.com/api/mcp/asset/108c8cb7-9f19-454d-bfb8-c4669c9525d9")

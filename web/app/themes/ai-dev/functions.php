@@ -14,6 +14,7 @@ include_once 'includes/custom-post-types.php';
 include_once 'includes/taxonomies.php';
 include_once 'includes/enqueue.php';
 include_once 'includes/images.php';
+include_once 'includes/bugherd-media-sync.php';
 include_once 'includes/menus.php';
 include_once 'includes/admin-styles.php';
 include_once 'includes/gravity-forms.php';
