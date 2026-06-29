@@ -30,7 +30,7 @@ $reshape_fallback = ai_dev_theme_uri() . '/assets/img/footer-reshape-possible.sv
 
     <?php if ($footer_info) : ?>
       <div class="site-footer__col site-footer__col--info">
-        <?php echo wp_kses_post(wpautop($footer_info)); ?>
+        <?php echo wp_kses_post(make_clickable(wpautop($footer_info))); ?>
       </div>
     <?php endif; ?>
 

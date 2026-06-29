@@ -96,6 +96,17 @@
     font-weight: 500;
   }
 
+  &__col--info {
+    a {
+      color: inherit;
+
+      &:hover,
+      &:focus-visible {
+        text-decoration: underline;
+      }
+    }
+  }
+
   &__col--logos {
     display: flex;
     flex-wrap: wrap;
