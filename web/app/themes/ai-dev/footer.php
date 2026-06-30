@@ -4,8 +4,7 @@
 $footer_address = get_field('footer_address', 'option');
 $footer_info = get_field('footer_info', 'option');
 $footer_copyright = get_field('footer_copyright', 'option') ?: 'Copyright © ' . gmdate('Y') . ' Tall Agency Ltd';
-$reshape_image = get_field('footer_reshape_image', 'option');
-$reshape_fallback = ai_dev_theme_uri() . '/assets/img/footer-reshape-possible.svg';
+$reshape_text = get_field('reshape_text', 'option') ?: 'RESHAPE POSSIBLE';
 ?>
 <footer id="site-footer" class="site-footer">
   <?php if (has_nav_menu('footer-links')) : ?>
@@ -62,11 +61,13 @@ $reshape_fallback = ai_dev_theme_uri() . '/assets/img/footer-reshape-possible.sv
   </div>
 
   <div class="site-footer__reshape" aria-hidden="true">
-    <?php if ($reshape_image && !empty($reshape_image['ID'])) : ?>
-      <?php echo wp_get_attachment_image($reshape_image['ID'], 'full', false, array('class' => 'site-footer__reshape-image')); ?>
-    <?php else : ?>
-      <img class="site-footer__reshape-image" src="<?php echo esc_url($reshape_fallback); ?>" alt="" loading="lazy">
-    <?php endif; ?>
+    <div class="site-footer__reshape-track">
+      <div class="site-footer__reshape-inner">
+        <?php for ($i = 0; $i < 2; $i++) : ?>
+          <span class="site-footer__reshape-text"><?php echo esc_html($reshape_text); ?></span>
+        <?php endfor; ?>
+      </div>
+    </div>
   </div>
 
   <div class="site-footer__bar container">
