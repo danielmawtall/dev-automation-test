@@ -2,7 +2,7 @@
 $className = ai_dev_block_classes('text-block', $block);
 $layout = get_field('layout') ?: 'two-col';
 $style = get_field('style') ?: '';
-$has_content = ai_dev_block_has_content(array(get_field('heading'), get_field('body'), get_field('caption')));
+$has_content = ai_dev_block_has_content(array(get_field('heading'), get_field('body'), get_field('caption'), get_field('image')));
 $modifiers = array('text-block--' . $layout);
 if ($style) {
   $modifiers[] = 'text-block--' . $style;
@@ -25,6 +25,15 @@ if ($style) {
         <?php endif; ?>
         <?php get_template_part('template-parts/components/ctas-list', null, array('buttons' => get_field('buttons'))); ?>
       </div>
+      <?php if (get_field('image')) : ?>
+        <div class="text-block__image-col">
+          <?php get_template_part('template-parts/components/media', null, array(
+            'type' => 'image',
+            'image' => get_field('image'),
+            'size' => 'media-full',
+          )); ?>
+        </div>
+      <?php endif; ?>
     <?php else : ?>
       <h2 class="block__placeholder">Text Block</h2>
     <?php endif; ?>
