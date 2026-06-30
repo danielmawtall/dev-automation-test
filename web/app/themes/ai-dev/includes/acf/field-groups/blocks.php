@@ -159,6 +159,7 @@ acf_add_local_field_group(array(
     array('key' => 'field_ai_dev_tb_caption', 'label' => 'Caption', 'name' => 'caption', 'type' => 'text'),
     array('key' => 'field_ai_dev_tb_heading', 'label' => 'Heading', 'name' => 'heading', 'type' => 'text'),
     array('key' => 'field_ai_dev_tb_body', 'label' => 'Body', 'name' => 'body', 'type' => 'wysiwyg', 'toolbar' => 'basic', 'media_upload' => 0),
+    array('key' => 'field_ai_dev_tb_image', 'label' => 'Image', 'name' => 'image', 'type' => 'image', 'return_format' => 'array'),
     array('key' => 'field_ai_dev_tb_layout', 'label' => 'Layout', 'name' => 'layout', 'type' => 'select', 'choices' => array('two-col' => 'Two column', 'left' => 'Left aligned', 'right' => 'Right aligned'), 'default_value' => 'two-col'),
     array('key' => 'field_ai_dev_tb_style', 'label' => 'Style', 'name' => 'style', 'type' => 'select', 'choices' => array('' => 'Default', 'intro' => 'Homepage intro'), 'allow_null' => 1),
     ai_dev_buttons_repeater('ai_dev_tb'),
