@@ -87,7 +87,7 @@ check_html 'id="site-footer"' 'Site footer present'
 check_html 'site-footer__top-links' 'Footer top links row present'
 check_html 'site-footer__main' 'Footer main columns present'
 check_html 'site-footer__reshape' 'Footer reshape panel present'
-check_html 'site-footer__reshape-image' 'Footer reshape image present'
+check_html 'site-footer__reshape-text' 'Footer reshape marquee text present'
 check_html 'site-footer__bar' 'Footer copyright bar present'
 check_html_absent 'site-footer__scroll-text' 'No legacy footer scroll-text hack'
 
