@@ -124,6 +124,7 @@
   }
 
   &__reshape {
+    --text-size: max(3em, min(30vw, 280px));
     width: 100%;
     max-width: 100%;
     margin-bottom: 3.125rem;
@@ -142,12 +143,11 @@
 
   &__reshape-text {
     flex-shrink: 0;
-    padding-right: 0.15em;
+    margin: 0 0.3em 0 0;
     font-family: var(--font-display);
-    font-size: clamp(6rem, 13.8vw, var(--text-display-l));
+    font-size: var(--text-size);
     font-weight: 400;
     line-height: 1;
-    letter-spacing: var(--tracking-display-l);
     text-transform: uppercase;
     white-space: nowrap;
   }
@@ -194,8 +194,8 @@
       align-items: flex-start;
     }
 
-    &__reshape-text {
-      font-size: clamp(3.5rem, 16vw, 6rem);
+    &__reshape {
+      --text-size: max(3em, min(30vw, 280px));
     }
   }
 }
