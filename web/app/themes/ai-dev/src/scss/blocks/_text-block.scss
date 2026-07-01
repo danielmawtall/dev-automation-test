@@ -5,8 +5,8 @@
 
     .text-block__grid {
       display: flex;
-      flex-wrap: wrap;
-      gap: 11.6875rem;
+      flex-wrap: nowrap;
+      gap: var(--space-xl);
       align-items: flex-start;
     }
 
@@ -18,15 +18,16 @@
     .text-block__content {
       display: grid;
       gap: var(--space-md);
-      flex: 0 1 690px;
-      max-width: 690px;
+      flex: 0 1 520px;
+      max-width: 520px;
+      min-width: 0;
     }
 
     .text-block__image-col {
-      flex: 0 0 auto;
+      flex: 0 0 280px;
       margin-left: auto;
       align-self: flex-start;
-      max-width: min(100%, 280px);
+      max-width: 280px;
 
       .media__image {
         display: block;
@@ -58,10 +59,17 @@
   @media (max-width: 900px) {
     &--intro .text-block__grid {
       flex-direction: column;
+      flex-wrap: wrap;
       gap: var(--space-md);
     }
 
+    &--intro .text-block__content {
+      flex: 1 1 auto;
+      max-width: 100%;
+    }
+
     &--intro .text-block__image-col {
+      flex: 0 0 auto;
       margin-left: 0;
       max-width: 100%;
     }
